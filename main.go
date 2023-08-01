@@ -18,8 +18,7 @@ func main() {
 	trad.Buy.Price = 29546.89
 	trad.Sell.Symbol = "BTC/BUSD"
 	trad.Sell.Price = 30234.08
-	trad.CreateTrade(
-		db, trad.Buy, trad.Sell)
+	trad.CreateTrade(db, trad.Buy, trad.Sell)
 
 	// // Migrate the schema
 	// db.AutoMigrate(&product.Product{})
