@@ -1,6 +1,8 @@
 package trade
 
 import (
+	"fmt"
+
 	"ORM.testORM/trade/buyOrder"
 	"ORM.testORM/trade/sellOrder"
 	"gorm.io/gorm"
@@ -20,8 +22,9 @@ func (t *Trade) CreateTrade(db *gorm.DB, buy buyOrder.Buy, sell sellOrder.Sell )
 		buy,
 		sell,
 	} 
-
-	if err := db.Create(newTrade).Error; err != nil {
+	fmt.Println(newTrade)
+	// @todo debug here
+	if err := db.Create(&newTrade).Error; err != nil {
 		return nil, err
 	}
 

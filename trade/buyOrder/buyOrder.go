@@ -7,6 +7,6 @@ import (
 type Buy struct {
 
 	order.Order			`gorm:"embedded;embeddedPrefix:buy_"`
-	Side			string	`gorm:"default:'BUY'"`
+	Side			string	`gorm:"default:BUY;embeddedPrefix:buy_"`
 
 }

@@ -16,8 +16,10 @@ func main() {
 	trad.Migrate(db)
 	trad.Buy.Symbol = "BTC/BUSD"
 	trad.Buy.Price = 29546.89
+	trad.Buy.Side = ""
 	trad.Sell.Symbol = "BTC/BUSD"
 	trad.Sell.Price = 30234.08
+	trad.Sell.Side = ""
 	trad.CreateTrade(db, trad.Buy, trad.Sell)
 
 	// // Migrate the schema
