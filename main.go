@@ -22,7 +22,7 @@ func main() {
 
 	trad.Sell.Symbol = "BTC/BUSD"
 	trad.Sell.Price = 30234.08
-	
+
 	newTrad, err := trad.CreateTrade(db, trad.Buy, trad.Sell)
 	if err != nil {
 		return
