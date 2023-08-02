@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"ORM.testORM/trade/trade"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -14,13 +16,18 @@ func main() {
 
 	trad := &trade.Trade{}
 	trad.Migrate(db)
+
 	trad.Buy.Symbol = "BTC/BUSD"
 	trad.Buy.Price = 29546.89
-	trad.Buy.Side = ""
+
 	trad.Sell.Symbol = "BTC/BUSD"
 	trad.Sell.Price = 30234.08
-	trad.Sell.Side = ""
-	trad.CreateTrade(db, trad.Buy, trad.Sell)
+	
+	newTrad, err := trad.CreateTrade(db, trad.Buy, trad.Sell)
+	if err != nil {
+		return
+	}
+	fmt.Println(newTrad)
 
 	// // Migrate the schema
 	// db.AutoMigrate(&product.Product{})
