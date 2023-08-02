@@ -4,4 +4,4 @@ First Push of the directory and simple testing
 
 ## Trade Model
 
-Made go model that represents a trade.
+Made go model that represents a trade and refactored the fields of the models.
