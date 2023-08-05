@@ -49,21 +49,40 @@ func main() {
 	fmt.Println("\n\nRead Trade: ")
 	fmt.Println(tradeRead)
 
+	var updatedTrade = trade.Trade{}
 
+	
+	fmt.Println("########## randomPriceTrade: ")
+	fmt.Println(randomPriceTrade.ID)
+	
+	
+	
 	deletedTrade, err := trad.Delete(db, "8")
 	if err != nil{
 		log.Fatal("Error during the delete")
 		return
 	}
-
+	
 	fmt.Println("\n\nDeleted Trade: ")
 	fmt.Println(deletedTrade)
-   
-	// // Read
-	// var _product product.Product
-	// db.First(&_product, 1) // find product with integer primary key
-	// db.First(&_product, "code = ?", "D42") // find product with code D42
-   
+
+	updatedTrade.ID = 1
+	updatedTrade.Buy.Symbol = "BTC/BUSD"
+	updatedTrade.Buy.Price = 50
+
+	updatedTrade.Sell.Symbol = "BTC/BUSD"
+	updatedTrade.Sell.Price = 22
+	
+	updated, err := trad.UpdateTrade(db, updatedTrade)
+	if err != nil{
+		log.Fatal(err)
+		return
+	}
+
+	if updated {
+		fmt.Println("\n\nRecord Updated: ")
+		fmt.Println(updated)
+	}
 	// // Update - update product's price to 200
 	// db.Model(&_product).Update("Price", 200)
 	// // Update - update multiple fields

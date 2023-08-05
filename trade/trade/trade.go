@@ -1,6 +1,7 @@
 package trade
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 
@@ -11,7 +12,7 @@ import (
 
 type Trade struct {
 	ID 	uint16	`gorm:"primaryKey,autoIncrement"`
-	buyOrder.Buy
+	buyOrder.Buy	
 	sellOrder.Sell	
 }
 
@@ -54,9 +55,30 @@ func (t *Trade) ReadTrade(db *gorm.DB, id string) (*Trade, error){
 	}
 	return &readTrade, nil
 }
-func (t *Trade) ReadTradeAll(db *gorm.DB, trade Trade) { 
-	readTradeAll := db.Find(&trade)
+func (t *Trade) ReadTradeAll(db *gorm.DB, trade Trade) (*Trade, error) {
+	var emptyCondition string
+	readTradeAll := db.Find(&trade, emptyCondition)
 	fmt.Println(readTradeAll.RowsAffected)
+	return nil, nil
+}
+
+// Update
+func (t *Trade) UpdateTrade(db *gorm.DB, trade Trade) (bool, error) {
+	if trade.ID > 0{
+		if trade.Buy.Symbol == trade.Sell.Symbol {
+			if trade.Buy.Price > 0.0 && trade.Sell.Price > 0.0 {
+				fmt.Println("##### trade fields are valid")
+			} else {
+				return false, errors.New("##### buy or sell price is negative check tha value")
+			}
+		} else {
+			return false, errors.New("##### buy symbol and sell symbol not equal, the buy is not connected with sell")
+		}
+	} else {
+		return false, errors.New("##### ID is missing or with a not valid value, inserted value could be id < 0 or id = 0")
+	}
+	db.Save(&Trade{ID: trade.ID, Buy: trade.Buy, Sell: trade.Sell})
+	return true, nil
 }
 
 // Delete
