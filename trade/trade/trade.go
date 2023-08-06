@@ -55,11 +55,14 @@ func (t *Trade) ReadTrade(db *gorm.DB, id string) (*Trade, error){
 	}
 	return &readTrade, nil
 }
-func (t *Trade) ReadTradeAll(db *gorm.DB, trade Trade) (*Trade, error) {
-	var emptyCondition string
-	readTradeAll := db.Find(&trade, emptyCondition)
+func (t *Trade) ReadTradeAll(db *gorm.DB) ([]Trade, error) {
+	var trades []Trade
+	readTradeAll := db.Find(&trades)
+	if readTradeAll.Error != nil {
+		return nil, errors.New("something went wrong during read of all file")
+	}
 	fmt.Println(readTradeAll.RowsAffected)
-	return nil, nil
+	return trades, nil
 }
 
 // Update

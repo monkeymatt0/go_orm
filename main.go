@@ -49,6 +49,15 @@ func main() {
 	fmt.Println("\n\nRead Trade: ")
 	fmt.Println(tradeRead)
 
+	tradeReadAll, err := trad.ReadTradeAll(db)
+	if err != nil{
+		log.Fatal("Error during the reading by id")
+		return
+	}
+
+	fmt.Println("\n\nRead Trade All: ")
+	fmt.Println(tradeReadAll)
+
 	var updatedTrade = trade.Trade{}
 
 	
@@ -83,12 +92,4 @@ func main() {
 		fmt.Println("\n\nRecord Updated: ")
 		fmt.Println(updated)
 	}
-	// // Update - update product's price to 200
-	// db.Model(&_product).Update("Price", 200)
-	// // Update - update multiple fields
-	// db.Model(&_product).Updates(product.Product{Price: 200, Code: "F42"}) // non-zero fields
-	// db.Model(&_product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
-   
-	// // Delete - delete product
-	// db.Delete(&_product, 1)
    }
