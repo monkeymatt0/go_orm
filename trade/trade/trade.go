@@ -20,6 +20,15 @@ func (t Trade) Migrate(db *gorm.DB) error {
 	return db.AutoMigrate(&Trade{})
 }
 
+func checkId(db *gorm.DB, id string) (trad *Trade, err error){
+	var trade Trade
+	_trade, err := trade.ReadTrade(db, id)
+	if err != nil {
+		return nil, err
+	}
+	return _trade, nil	
+}
+
 // Create
 func (t *Trade) CreateTrade(db *gorm.DB, buy buyOrder.Buy, sell sellOrder.Sell) (*Trade, error){
 	var newTrade  = Trade{
@@ -67,9 +76,7 @@ func (t *Trade) ReadTradeAll(db *gorm.DB) ([]Trade, error) {
 
 // BeforeUpdate Hook
 func (t *Trade) BeforeUpdate(tx *gorm.DB) (err error) {
-	var trade = Trade{}
-	_trade, err := trade.ReadTrade(tx, fmt.Sprint(t.ID))
-
+	_trade, err := checkId(tx, fmt.Sprint(t.ID))
 	if err != nil{
 		fmt.Println("########## update is not possible, id not in the table")
 		return err
@@ -97,6 +104,18 @@ func (t *Trade) UpdateTrade(db *gorm.DB, trade Trade) (bool, error) {
 	}
 	db.Save(&Trade{ID: trade.ID, Buy: trade.Buy, Sell: trade.Sell})
 	return true, nil
+}
+
+// Before Delete Hook
+func (t *Trade) BeforeDelete(tx *gorm.DB) (err error) {
+	_trade, err := checkId(tx, fmt.Sprint(t.ID))
+	if err != nil{
+		fmt.Println("########## delete is not possible, id not in the table")
+		return err
+	}
+	fmt.Println("########## delete is possible, id still in the table")
+	fmt.Println(_trade)
+	return nil
 }
 
 // Delete
