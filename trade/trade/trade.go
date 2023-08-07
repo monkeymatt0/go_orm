@@ -65,6 +65,21 @@ func (t *Trade) ReadTradeAll(db *gorm.DB) ([]Trade, error) {
 	return trades, nil
 }
 
+// BeforeUpdate Hook
+func (t *Trade) BeforeUpdate(tx *gorm.DB) (err error) {
+	var trade = Trade{}
+	_trade, err := trade.ReadTrade(tx, fmt.Sprint(t.ID))
+
+	if err != nil{
+		fmt.Println("########## update is not possible, id not in the table")
+		return err
+	}
+	fmt.Println("########## update is possible, id still in the table")
+	fmt.Println(_trade)
+	return nil
+}
+
+
 // Update
 func (t *Trade) UpdateTrade(db *gorm.DB, trade Trade) (bool, error) {
 	if trade.ID > 0{

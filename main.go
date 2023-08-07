@@ -75,7 +75,7 @@ func main() {
 	fmt.Println("\n\nDeleted Trade: ")
 	fmt.Println(deletedTrade)
 
-	updatedTrade.ID = 1
+	updatedTrade.ID = 8
 	updatedTrade.Buy.Symbol = "BTC/BUSD"
 	updatedTrade.Buy.Price = 50
 
@@ -92,4 +92,6 @@ func main() {
 		fmt.Println("\n\nRecord Updated: ")
 		fmt.Println(updated)
 	}
+
+
    }
